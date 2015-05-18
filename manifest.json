@@ -1,36 +1,25 @@
 {
   "name": "Profile data downloader",
   "description": "This tool allow you to download user data to your external service",
-  "version": "2.0",
+  "version": "1.0",
   "permissions": [
-    "activeTab"
+    "activeTab",
+    // "experimental",
+    "tabs",
+    "http://*/*",
+    "https://*/*"
   ],
+  "devtools_page": "lib/html/devtools.html",
   "background": {
     "scripts": [
-      "background..min.js"
+      "lib/js/background.min.js"
     ],
     "persistent": false
   },
-  "content_scripts": [
-    {
-      "matches": [
-        "http://*/*",
-        "https://*/*"
-      ],
-      "js": [
-        "content.min.js"
-      ]
-    }
-  ],
   "browser_action": {
     "default_icon": "media/icon.png",
-    "default_popup": "browser.html",
+    "default_popup": "lib/html/browser.html",
     "default_title": "Profile downloader"
-  },
-  "page_action": {
-    "default_icon": "media/icon.png",
-    "default_title": "Profile downloader",
-    "default_popup": "page.html"
   },
   "manifest_version": 2
 }
