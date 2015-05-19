@@ -83,13 +83,21 @@ module.exports = function(grunt) {
       html: {
         files: ['**/*.html']
       },
-      sass: {
-        files: '<%= sass.compile.files[0].src %>',
+      scss: {
+        files: 'src/scss/**/*.scss',
         tasks: ['sass']
       },
       coffee: {
-        files: '<%= coffee.compile.src %>',
+        files: 'src/coffee/**/*.coffee',
         tasks: ['coffee']
+      },
+      cssmin: {
+        files: 'src_raw/css/**/*.css',
+        tasks: ['cssmin']
+      },
+      uglify: {
+        files: 'src_raw/js/**/*.js',
+        tasks: ['uglify']
       },
       options: {
         livereload: true
@@ -99,7 +107,6 @@ module.exports = function(grunt) {
 
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -107,6 +114,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'sass', 'coffee', 'cssmin', 'uglify', 'watch']);
+  grunt.registerTask('default', ['sass', 'coffee', 'cssmin', 'uglify', 'watch']);
 
 };

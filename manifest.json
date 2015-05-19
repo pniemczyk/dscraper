@@ -5,6 +5,8 @@
   "permissions": [
     "activeTab",
     // "experimental",
+    "contextMenus",
+    "unlimitedStorage",
     "tabs",
     "http://*/*",
     "https://*/*"
@@ -16,10 +18,18 @@
     ],
     "persistent": false
   },
+  "content_scripts": [
+      {
+          "matches": ["http://*/*", "https://*/*"],
+          "js": ["lib/js/content.min.js"]
+      }
+  ],
   "browser_action": {
     "default_icon": "media/icon.png",
     "default_popup": "lib/html/browser.html",
-    "default_title": "Profile downloader"
+    "default_title": "Profile downloader",
+    "css": ["lib/css/*.css"],
+    "js": ["lib/js/*.js"]
   },
   "manifest_version": 2
 }
