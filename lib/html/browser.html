@@ -1,19 +1,48 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Profile downloader</title>
+  <head>
+    <title>Profile downloader</title>
+    <link rel="stylesheet" href="/lib/css/base.min.css" type="text/css">
+    <link rel="stylesheet" href="/lib/css/browser.min.css" type="text/css">
 
-  <link rel="stylesheet" href="lib/css/base.min.css" type="text/css">
-  <link rel="stylesheet" href="lib/css/browser.css" type="text/css">
+    <script type="text/javascript" src="/lib/js/plugins/jquery.min.js"></script>
+    <script type="text/javascript" src="/lib/js/plugins/underscore-min.js"></script>
+    <script type="text/javascript" src="/lib/js/plugins/backbone-min.js"></script>
+    <script type="text/javascript" src="/lib/js/plugins/handlebars.min.js"></script>
 
-  <script type="text/javascript" src="lib/js/plugins/jquery.min.js"></script>
-  <script type="text/javascript" src="lib/js/plugins/underscore.min.js"></script>
-  <script type="text/javascript" src="lib/js/plugins/backbone.min.js"></script>
-  <script type="text/javascript" src="lib/js/browser.min.js"></script>
-</head>
-<body>
-<p>
-Test
-</p>
-</body>
+    <script type="text/javascript" src="/lib/js/browser.min.js"></script>
+  </head>
+  <body>
+    <ul id="nav"><li id="nav_home">Home</li>
+      <li id="nav_extract">Extract
+<!--
+        <ul>
+          <li id="nav_extract_linkedin_profile">Linkedin Profile</li>
+        </ul>
+-->
+      </li>
+      <li id="nav_about">About</li>
+      <li id="nav_contact">Contact</li>
+    </ul>
+
+    <div id="page_home" class="js-page-content">
+      <h1>Home</h1>
+      <button id="test">Test</button>
+      <p>This plugin is prepared for the test</p>
+
+      <span class="glyphicon glyphicon-step-backward"></span>
+    </div>
+
+    <div id="page_contact" class="js-page-content" style="display: none;">
+      <h1>Contact</h1>
+    </div>
+
+    <div id="page_about" class="js-page-content" style="display: none;">
+      <h1>About</h1>
+    </div>
+
+    <div id="page_extract" class="js-page-content" style="display: none;">
+      <h1>Extract</h1>
+    </div>
+  </body>
 </html>

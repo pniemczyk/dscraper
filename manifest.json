@@ -6,10 +6,13 @@
     "activeTab",
     // "experimental",
     "contextMenus",
+    "background",
     "unlimitedStorage",
+    "pageCapture",
     "tabs",
     "http://*/*",
-    "https://*/*"
+    "https://*/*",
+    "chrome://*/*"
   ],
   "devtools_page": "lib/html/devtools.html",
   "background": {
@@ -18,6 +21,12 @@
     ],
     "persistent": false
   },
+  "web_accessible_resources": [
+    "lib/js/**/*.js",
+    "lib/css/**/*.css",
+    "lib/html/**/*.html",
+    "media/**/*"
+  ],
   "content_scripts": [
       {
           "matches": ["http://*/*", "https://*/*"],
@@ -27,9 +36,7 @@
   "browser_action": {
     "default_icon": "media/icon.png",
     "default_popup": "lib/html/browser.html",
-    "default_title": "Profile downloader",
-    "css": ["lib/css/*.css"],
-    "js": ["lib/js/*.js"]
+    "default_title": "Profile downloader"
   },
   "manifest_version": 2
 }
