@@ -1,10 +1,13 @@
 $ ->
-  class Extractor
+  log = (msg) -> console.log(msg)
+  class ExtractData
     default_shema_list:
       linkedin:
         fields:
-          full_name:
-            selector: '#name'
+          full_name: '#name .full-name'
+          headline: '#headline .title'
+          skils: '#background-skills-container .skills-section li'
+
         init_after: (data) ->
           arr = data['full_name'].split(' ')
           data['first_name'] = arr[0]
@@ -13,13 +16,8 @@ $ ->
 
     constructor: (@schema_list = {}) ->
 
-    extract: (name, dom) ->
-      schema = @schema_list[name] || @default_shema_list[name]
-      null unless schema
-      data = {}
-      for field of schema.fields
-          data[field] = $.trim($(schema.fields[field].selector).text())
-      schema.init_after(data)
+    schema: (name) ->
+      @schema_list[name] || @default_shema_list[name] || {}
 
   class TableBuilder
     constructor: (@object) ->
@@ -45,25 +43,50 @@ $ ->
 
   class PageController
     constructor: ->
-      @navView = new NaviView(controller: @)
+      @extId       = chrome.runtime.id
+      @navView     = new NaviView(controller: @)
+      @extractData = new ExtractData()
+      @watch()
 
     showPage: (pageName) =>
       $('.js-page-content').hide()
-      @extractInit() if pageName is 'extract'
+      @extract('linkedin.com', @extractData.schema('linkedin')) if pageName is 'extract'
       $("#page_#{pageName}").fadeIn()
 
-
-    extractInit: =>
-      chrome.tabs.getSelected null, (tab) =>
-        @extractLinkedIn(tab) if tab.url.toLowerCase().indexOf('linkedin.com') > 0
-    extractLinkedIn: (tab) ->
-      chrome.pageCapture.saveAsMHTML({tabId: tab.id}, (mhtml) ->
-        reader = new FileReader()
-        reader.addEventListener("loadend", (e) ->
-          console.log e.srcElement.result
-        )
-        reader.readAsText(mhtml)
-        false
+    getTextFromSelector: (selector) ->
+      chrome.extension.sendMessage({method: "getTextFromSelector", selector: selector}, (res) ->
+        console.log(res)
       )
-      # chrome.tabs.executeScript(null, code:"alert('extract');")
+
+    localStorage: ->
+      chrome.extension.sendMessage({method: "getLocalStorage", key: "name"}, (res) ->
+        $('body').html(res)
+        console.log(res)
+      )
+
+    extract: (domain, data) ->
+      chrome.runtime.sendMessage(@extId, {extId: @extId, method: "dscraperExtract", domain: domain, data: data}, (res) ->
+        console.log res
+      )
+
+    watch: ->
+      chrome.runtime.onMessage.addListener((data, sender, sendResponse) ->
+        profileUrl = data.request.url
+        fields     = data.result
+        log fields
+        html       = '<ul>'
+        for field of fields
+          html = html + "<li><b>#{field}:</b> #{fields[field]}</li>"
+        html = html + '</ul>'
+        log html
+        $('#page_extract_content').html(html)
+      )
+
+    # injectScript: (tab) ->
+    #   chrome.tabs.executeScript(tab.id, {file: 'lib/js/inject.min.js'}, =>
+    #     @getTextFromSelector('#name')
+    #     # show('loading');
+    #     # sendScrollMessage(tab);
+    #   )
+    # bal: (msg) -> chrome.tabs.executeScript(null, code:"alert('#{msg}');")
   new PageController()

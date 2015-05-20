@@ -1,0 +1,15 @@
+<html>
+  <head><title>Extension Options</title></head>
+  <script type="text/javascript">
+    function save_options() {
+      // var name = document.getElementById("name");
+      localStorage["name"] = 'pawel'; //name.value;
+      console.log(localStorage["name"]);
+    }
+  </script>
+  <body>
+    <div id='status'></div>
+    Your Name:<input type='text' id='name'></input>
+    <button onclick="save_options()">Save</button>
+  </body>
+</html>

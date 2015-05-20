@@ -5,14 +5,16 @@
   "permissions": [
     "activeTab",
     // "experimental",
+    "storage",
     "contextMenus",
     "background",
     "unlimitedStorage",
     "pageCapture",
     "tabs",
-    "http://*/*",
-    "https://*/*",
-    "chrome://*/*"
+    "<all_urls>"
+    // "http://*/*",
+    // "https://*/*",
+    // "chrome://*/*"
   ],
   "devtools_page": "lib/html/devtools.html",
   "background": {
@@ -21,6 +23,7 @@
     ],
     "persistent": false
   },
+  // "options_page": "lib/html/options.html",
   "web_accessible_resources": [
     "lib/js/**/*.js",
     "lib/css/**/*.css",
@@ -28,10 +31,10 @@
     "media/**/*"
   ],
   "content_scripts": [
-      {
-          "matches": ["http://*/*", "https://*/*"],
-          "js": ["lib/js/content.min.js"]
-      }
+    {
+      "matches": ["<all_urls>"],
+      "js": ["lib/js/plugins/jquery.min.js", "lib/js/content.min.js"]
+    }
   ],
   "browser_action": {
     "default_icon": "media/icon.png",

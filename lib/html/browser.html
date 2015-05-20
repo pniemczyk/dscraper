@@ -13,17 +13,19 @@
     <script type="text/javascript" src="/lib/js/browser.min.js"></script>
   </head>
   <body>
-    <ul id="nav"><li id="nav_home">Home</li>
-      <li id="nav_extract">Extract
-<!--
-        <ul>
-          <li id="nav_extract_linkedin_profile">Linkedin Profile</li>
-        </ul>
--->
-      </li>
-      <li id="nav_about">About</li>
-      <li id="nav_contact">Contact</li>
-    </ul>
+    <div class='navbar'>
+      <ul id="nav"><li id="nav_home">Home</li>
+        <li id="nav_extract">Extract
+  <!--
+          <ul>
+            <li id="nav_extract_linkedin_profile">Linkedin Profile</li>
+          </ul>
+  -->
+        </li>
+        <li id="nav_about">About</li>
+        <li id="nav_contact">Contact</li>
+      </ul>
+    </div>
 
     <div id="page_home" class="js-page-content">
       <h1>Home</h1>
@@ -43,6 +45,9 @@
 
     <div id="page_extract" class="js-page-content" style="display: none;">
       <h1>Extract</h1>
+      <div id="page_extract_content">
+        Loading data...
+      </div>
     </div>
   </body>
 </html>
