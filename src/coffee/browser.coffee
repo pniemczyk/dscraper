@@ -4,9 +4,41 @@ $ ->
     default_shema_list:
       linkedin:
         fields:
-          full_name: '#name .full-name'
-          headline: '#headline .title'
-          skils: '#background-skills-container .skills-section li'
+          full_name:
+            selector: '#name .full-name'
+          headline:
+            selector: '#headline .title'
+          experience:
+            block_list: true
+            selector: '#background-experience .section-item'
+            items:
+              company:
+                selector: 'h5'
+              title:
+                selector: 'h4'
+              date:
+                selector: 'span.experience-date-locale'
+          summary:
+            selector: '#background-summary'
+          skils:
+            collection: true
+            selector: '#background-skills .skill-pill .endorse-item-name'
+          interests:
+            collection: true
+            selector: '#interests .interests-listing li'
+          languages:
+            collection: true
+            selector: '#background-languages .section-item'
+          education:
+            block_list: true
+            selector: '#background-education-container .section-item'
+            items:
+              name:
+                selector: 'h4'
+              level:
+                selector: 'h5'
+              date:
+                selector: '.education-date'
 
         init_after: (data) ->
           arr = data['full_name'].split(' ')
@@ -65,20 +97,29 @@ $ ->
       )
 
     extract: (domain, data) ->
-      chrome.runtime.sendMessage(@extId, {extId: @extId, method: "dscraperExtract", domain: domain, data: data}, (res) ->
-        console.log res
-      )
+      chrome.runtime.sendMessage(@extId, {extId: @extId, method: "dscraperExtract", domain: domain, data: data})
 
     watch: ->
       chrome.runtime.onMessage.addListener((data, sender, sendResponse) ->
         profileUrl = data.request.url
         fields     = data.result
-        log fields
-        html       = '<ul>'
+        html       = "<p><a href='#{profileUrl}'><b>Profile link</b></p></a><ul>"
         for field of fields
-          html = html + "<li><b>#{field}:</b> #{fields[field]}</li>"
+          content = if _.isString(fields[field])
+            fields[field]
+          else
+            if _.isString(fields[field][0])
+              fields[field].join(', ')
+            else
+              $.map(fields[field], (obj) ->
+                itemHtml = '<ul>'
+                for f of obj
+                  itemHtml = itemHtml + "<li><b>#{f}:</b> #{obj[f]}</li>"
+                itemHtml = itemHtml + '</ul>'
+                itemHtml
+              ).join('')
+          html = html + "<li><b>#{field}:</b> #{content}</li>"
         html = html + '</ul>'
-        log html
         $('#page_extract_content').html(html)
       )
 
